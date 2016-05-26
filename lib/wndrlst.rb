@@ -22,11 +22,14 @@ class Wndrlst
     @client_id     = client_id
     @client_secret = client_secret
     @access_token  = access_token
-    @params = "?client_id=#{@client_id}&access_token=#{@access_token}"
+    @params = {
+      'client_id' => @client_id,
+      'access_token' => @access_token
+    }
+
   end
 
   def name
-
   end
 
   def lists(name)
@@ -45,9 +48,11 @@ class Wndrlst
   def search(type)
   end
 
-  def search_name
-    url = "#{API_URL}/name"
-    response = open("#{url}?#{@params}")
+  def search_user
+    params = @params.collect {|p, v| "#{p}=#{v}&"}.join("")
+    params.slice!(-1)
+    url = "#{API_URL}/user"
+    response = open("#{url}?#{params}")
     unless response.status == 200
       puts "response is #{response.status}"
     end
@@ -55,8 +60,10 @@ class Wndrlst
   end
 
   def search_lists
+    params = @params.collect {|p, v| "#{p}=#{v}&"}.join("")
+    params.slice!(-1)
     url = "#{API_URL}/lists"
-    response = open("#{url}?#{@params}")
+    response = open("#{url}?#{params}")
     unless response.status == 200
       puts "response is #{response.status}"
     end
@@ -64,8 +71,47 @@ class Wndrlst
   end
 
   def search_list(id)
+    params = @params.collect {|p, v| "#{p}=#{v}&"}.join("")
+    params.slice!(-1)
     url = "#{API_URL}/lists/#{id}"
-    response = open("#{url}?#{@params}")
+    response = open("#{url}?#{params}")
+    unless response.status == 200
+      puts "response is #{response.status}"
+    end
+    JSON.parse(response.read)
+  end
+
+  def search_tasks(list_id, completed=false)
+    @params['list_id'] = list_id
+    @params['completed'] = completed
+    params = @params.collect {|p, v| "#{p}=#{v}&"}.join("")
+    params.slice!(-1)
+    url = "#{API_URL}/tasks"
+    response = open("#{url}?#{params}")
+    unless response.status == 200
+      puts "response is #{response.status}"
+    end
+    JSON.parse(response.read)
+  end
+
+  def search_subtasks_from_list(list_id)
+    @params['list_id'] = list_id
+    params = @params.collect {|p, v| "#{p}=#{v}&"}.join("")
+    params.slice!(-1)
+    url = "#{API_URL}/subtasks"
+    response = open("#{url}?#{params}")
+    unless response.status == 200
+      puts "response is #{response.status}"
+    end
+    JSON.parse(response.read)
+  end
+
+  def search_subtasks_from_task(task_id)
+    @params['task_id'] = task_id
+    params = @params.collect {|p, v| "#{p}=#{v}&"}.join("")
+    params.slice!(-1)
+    url = "#{API_URL}/subtasks"
+    response = open("#{url}?#{params}")
     unless response.status == 200
       puts "response is #{response.status}"
     end
