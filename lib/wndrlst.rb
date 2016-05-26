@@ -29,20 +29,40 @@ class Wndrlst
 
   end
 
-  def name
+  def user
   end
 
   def lists(name)
   end
 
-  def tasks(status=:all)
-    case status
-    when :all?
-    when :finished
-    when :progress
-    else
-      puts 'argument status is invalid.'
+  def tasks(list_name, completed=false)
+    list_id = ""
+    search_lists.each do |list|
+      if list['title'] == list_name
+        list_id = list['id']
+      end
     end
+
+    if list_id
+      tasks = search_tasks(list_id, completed).collect do |tasks|
+        tasks['title']
+      end
+    else
+      puts 'That name is not found.'
+    end
+  end
+
+  def report(list_name, date=Date.today)
+    puts "\n# 今日やったこと\n\n"
+    tasks(list_name, true).each do |title|
+      puts "- #{title}"
+    end
+
+    puts "\n# 残タスク\n\n"
+    tasks(list_name, false).each do |title|
+      puts "- #{title}"
+    end
+    true
   end
 
   def search(type)
@@ -53,8 +73,8 @@ class Wndrlst
     params.slice!(-1)
     url = "#{API_URL}/user"
     response = open("#{url}?#{params}")
-    unless response.status == 200
-      puts "response is #{response.status}"
+    unless response.status[0] == '200'
+      puts "response is #{response.status[0]}"
     end
     JSON.parse(response.read)
   end
@@ -64,8 +84,8 @@ class Wndrlst
     params.slice!(-1)
     url = "#{API_URL}/lists"
     response = open("#{url}?#{params}")
-    unless response.status == 200
-      puts "response is #{response.status}"
+    unless response.status[0] == '200'
+      puts "response is #{response.status[0]}"
     end
     JSON.parse(response.read)
   end
@@ -75,8 +95,8 @@ class Wndrlst
     params.slice!(-1)
     url = "#{API_URL}/lists/#{id}"
     response = open("#{url}?#{params}")
-    unless response.status == 200
-      puts "response is #{response.status}"
+    unless response.status[0] == '200'
+      puts "response is #{response.status[0]}"
     end
     JSON.parse(response.read)
   end
@@ -88,8 +108,8 @@ class Wndrlst
     params.slice!(-1)
     url = "#{API_URL}/tasks"
     response = open("#{url}?#{params}")
-    unless response.status == 200
-      puts "response is #{response.status}"
+    unless response.status[0] == '200'
+      puts "response is #{response.status[0]}"
     end
     JSON.parse(response.read)
   end
@@ -100,8 +120,8 @@ class Wndrlst
     params.slice!(-1)
     url = "#{API_URL}/subtasks"
     response = open("#{url}?#{params}")
-    unless response.status == 200
-      puts "response is #{response.status}"
+    unless response.status[0] == '200'
+      puts "response is #{response.status[0]}"
     end
     JSON.parse(response.read)
   end
@@ -112,8 +132,8 @@ class Wndrlst
     params.slice!(-1)
     url = "#{API_URL}/subtasks"
     response = open("#{url}?#{params}")
-    unless response.status == 200
-      puts "response is #{response.status}"
+    unless response.status[0] == '200'
+      puts "response is #{response.status[0]}"
     end
     JSON.parse(response.read)
   end
