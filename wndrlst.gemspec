@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["katsumata_ryo"]
   spec.email         = ["ktmt.ryo@gmail.com"]
 
-  spec.summary       = %q{TODO: Wunderlist wrapper gem.}
-  spec.description   = %q{TODO: Wunderlist wrapper gem.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Wunderlist wrapper gem.}
+  spec.description   = %q{Wunderlist wrapper gem.}
+  spec.homepage      = "https://github.com/katsumata-ryo/wndrlst"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
