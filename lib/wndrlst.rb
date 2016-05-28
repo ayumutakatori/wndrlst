@@ -30,12 +30,28 @@ module Wndrlst
       get(generate_url('lists', params, id))
     end
 
+    def list_titles
+      lists.collect{|list| list[:title]}
+    end
+
     def tasks(list_id, completed=false)
       params = @params
       params['list_id'] = list_id
       params['completed'] = completed
 
       get(generate_url('tasks', params, params))
+    end
+
+    def task_titles(list_id, completed=false)
+      tasks(list_id, completed).collecct {|task| task[:title]}
+    end
+
+    def tasks_by_list_name(title, completed=false)
+      tasks(list_id(title), completed)
+    end
+
+    def task_title_by_list_name(title, completed=false)
+      tasks_by_list_name(title, completed).collect{|task| task[:title]}
     end
 
     def task(id)
@@ -79,6 +95,16 @@ module Wndrlst
       end
 
       JSON.parse(response.read)
+    end
+
+    def list_id(title)
+      list_id = ""
+      lists.each do |list|
+        if list[:title] == title
+          list_id = list[:id]
+        end
+      end
+      list_id
     end
   end
 end

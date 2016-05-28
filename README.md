@@ -24,6 +24,11 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+## History
+
+v0.0.2: Add Method(list_id, task_title_by_list_name, tasks_by_list_name), rspec test add(a part).
+v0.0.1: Initial version.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
