@@ -31,7 +31,7 @@ module Wndrlst
     end
 
     def list_titles
-      lists.collect{|list| list[:title]}
+      lists.collect{|list| list["title"]}
     end
 
     def tasks(list_id, completed=false)
@@ -43,7 +43,7 @@ module Wndrlst
     end
 
     def task_titles(list_id, completed=false)
-      tasks(list_id, completed).collecct {|task| task[:title]}
+      tasks(list_id, completed).collecct {|task| task["title"]}
     end
 
     def tasks_by_list_name(title, completed=false)
@@ -51,7 +51,7 @@ module Wndrlst
     end
 
     def task_title_by_list_name(title, completed=false)
-      tasks_by_list_name(title, completed).collect{|task| task[:title]}
+      tasks_by_list_name(title, completed).collect{|task| task["title"]}
     end
 
     def task(id)
@@ -100,8 +100,8 @@ module Wndrlst
     def list_id(title)
       list_id = ""
       lists.each do |list|
-        if list[:title] == title
-          list_id = list[:id]
+        if list["title"] == title
+          list_id = list["id"]
         end
       end
       list_id
