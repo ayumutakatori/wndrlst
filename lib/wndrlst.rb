@@ -39,22 +39,23 @@ module Wndrlst
       params['list_id'] = list_id
       params['completed'] = completed
 
-      get(generate_url('tasks', params, params))
+      get(generate_url('tasks', params))
     end
 
     def task_titles(list_id, completed=false)
-      tasks(list_id, completed).collecct {|task| task["title"]}
+      tasks(list_id, completed).collect {|task| task["title"]}
     end
 
     def tasks_by_list_name(title, completed=false)
       tasks(list_id(title), completed)
     end
 
-    def task_title_by_list_name(title, completed=false)
+    def task_titles_by_list_name(title, completed=false)
       tasks_by_list_name(title, completed).collect{|task| task["title"]}
     end
 
     def task(id)
+      params = @params
       get(generate_url('tasks', params, id))
     end
 
